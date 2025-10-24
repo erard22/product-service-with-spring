@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.5</version>
+		<version>3.5.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ch.erard22.demo</groupId>
@@ -14,13 +14,14 @@
 	<name>product-service-with-spring</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -31,6 +32,7 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -41,20 +43,30 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.5.5</version>
+				<groupId>org.hibernate.orm.tooling</groupId>
+				<artifactId>hibernate-enhance-maven-plugin</artifactId>
+				<version>${hibernate.version}</version>
 				<executions>
 					<execution>
+						<id>enhance</id>
 						<goals>
-							<goal>repackage</goal>
+							<goal>enhance</goal>
 						</goals>
+						<configuration>
+							<enableLazyInitialization>true</enableLazyInitialization>
+							<enableDirtyTracking>true</enableDirtyTracking>
+							<enableAssociationManagement>true</enableAssociationManagement>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<executable>true</executable>
-					<jvmArguments>-Xms64M -Xmx128M</jvmArguments>
-				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.graalvm.buildtools</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
